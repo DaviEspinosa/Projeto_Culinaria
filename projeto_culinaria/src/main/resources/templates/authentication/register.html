@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" th:href="@{authenticationCss/register.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <section>
+
+            <form action="form-register" class="form" method="post">
+                <h2>Cadastro</h2>
+                
+                <div th:if="${errorMessage}" class="error-message">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+                
+                <div th:if="${successMessage}" class="success-message">
+                    <span th:text="${successMessage}"></span>
+                </div>
+
+                <div class="dados">
+                    <input type="text" name="name" placeholder="Nome" required>
+                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="password" name="password" placeholder="Senha" required>
+                </div>
+
+                <button type="submit">Enviar</button>
+            </form>
+
+            <div class="Img-food"></div>
+
+        </section>
+    </div>
+</body>
+
+</html>

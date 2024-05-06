@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProjetoCulinariaApplication<projeto_culinaria>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "webapp.projeto_culinaria.ProjetoCulinariaApplication",
+            "projectName": "projeto_culinaria",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
