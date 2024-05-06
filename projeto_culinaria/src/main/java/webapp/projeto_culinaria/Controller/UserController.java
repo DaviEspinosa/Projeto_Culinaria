@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import webapp.projeto_culinaria.Model.UserDb;
 import webapp.projeto_culinaria.Repository.UserRepository;
 
+
 @Controller
 public class UserController {
 
@@ -47,39 +48,25 @@ public class UserController {
     }
 
     @PostMapping("form-register")
-public String userRegister(UserDb userDb, Model model) {
-    try {
-        boolean emailExists = ur.existsByEmail(userDb.getEmail());
-        if (emailExists) {
-            model.addAttribute("errorMessage", "Erro ao cadastrar: E-mail já está em uso");
-            return "authentication/register"; 
-        }
-        
-        if (userDb.getUser_id() == null) {
+    public String userRegister(UserDb userDb, Model model) {
+        try {
+            boolean emailExists = ur.existsByEmail(userDb.getEmail());
+            if (emailExists) {
+                model.addAttribute("errorMessage", "Erro ao cadastrar: E-mail já está em uso");
+                return "authentication/register";
+            }
             ur.save(userDb);
             model.addAttribute("successMessage", "Novo usuário cadastrado com sucesso");
-        } else {
-            Optional<UserDb> existingUserOptional = ur.findById(userDb.getUser_id());
-            if (existingUserOptional.isPresent()) {
-                UserDb existingUser = existingUserOptional.get();
-                existingUser.setName(userDb.getName());
-                existingUser.setEmail(userDb.getEmail());
-                ur.save(existingUser);
-                model.addAttribute("successMessage", "Informações do usuário atualizadas com sucesso");
-            } else {
-                model.addAttribute("errorMessage", "Usuário não encontrado para atualização");
-            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Erro ao tentar cadastrar/atualizar o usuário: " + e.getMessage());
+            e.printStackTrace();
+            return "errorPage";
         }
-    } catch (Exception e) {
-        model.addAttribute("errorMessage", "Erro ao tentar cadastrar/atualizar o usuário: " + e.getMessage());
-        e.printStackTrace();
-        return "errorPage";
+
+        return "redirect:/authentication/login";
     }
 
-    return "authentication/login";
-}
-
-    @PostMapping("/delete-user")
+    @PostMapping("delete-user")
     public String deleteUser(@RequestParam(required = false) Long user_id, Model model) {
         try {
             Optional<UserDb> userOptional = ur.findById(user_id);
@@ -95,7 +82,22 @@ public String userRegister(UserDb userDb, Model model) {
             e.printStackTrace();
         }
 
-        return "redirect:/user";
+        return "redirect:/index";
     }
 
+    @PostMapping("form-update-user")
+    public String postMethodName(UserDb userDb, Model model) {
+        Optional<UserDb> existingUserOptional = ur.findById(userDb.getUser_id());
+            if (existingUserOptional.isPresent()) {
+                UserDb existingUser = existingUserOptional.get();
+                existingUser.setName(userDb.getName());
+                existingUser.setEmail(userDb.getEmail());
+                ur.save(existingUser);
+                model.addAttribute("successMessage", "Informações do usuário atualizadas com sucesso");
+            } else {
+                model.addAttribute("errorMessage", "Usuário não encontrado para atualização");
+            }
+        return "redirect:/internal/user-page";
+    }
+    
 }
