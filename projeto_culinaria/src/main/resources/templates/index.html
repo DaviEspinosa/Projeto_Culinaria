@@ -1,53 +1,53 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="https://thymeleaf.org">
+    <!DOCTYPE html>
+    <html lang="en" xmlns="https://thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial</title>
-    <link rel="stylesheet" th:href="@{header.css}">
-    <link rel="stylesheet" th:href="@{style.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Página Inicial</title>
+        <link rel="stylesheet" th:href="@{header.css}">
+        <link rel="stylesheet" th:href="@{style.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
 
-<body>
-    <div th:insert="~{fragments/header :: header}"></div>
+    <body>
+        <div th:insert="~{fragments/header :: header}"></div>
 
 
-    <div class="container">
-        <div class="container-filter">
-            <ul>
-                <li><a href="">Salgados</a></li>
-                <li><a href="">Doces</a></li>
-                <li><a href="">Frios</a></li>
-                <li><a href="">Saladas</a></li>
-                <li><a href="">Bebidas</a></li>
-            </ul>
-            <div class="profile">
+        <div class="container">
+            <div class="container-filter">
+                <ul>
+                    <li><a href="">Salgados</a></li>
+                    <li><a href="">Doces</a></li>
+                    <li><a href="">Frios</a></li>
+                    <li><a href="">Saladas</a></li>
+                    <li><a href="">Bebidas</a></li>
+                </ul>
+                <div class="profile">
 
+                </div>
             </div>
+            <section class="feed-receitas">
+                <div class="posts">
+                    <div class="post">
+                        <img src="../image/sorvete.jpg" alt="">
+                        <h2>Bolo</h2>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                            recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                            aliquam unde quia sunt quae vero officiis.</p>
+                    </div>
+                    <div class="post">
+                        <img src="../image/bolo.jpg" alt="">
+                        <h2>Sorvete</h2>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                            recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                            aliquam unde quia sunt quae vero officiis.</p>
+                    </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        <section class="feed-receitas">
-            <div class="posts">
-                <div class="post">
-                    <img src="../image/sorvete.jpg" alt="">
-                    <h2>Bolo</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
-                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
-                        aliquam unde quia sunt quae vero officiis.</p>
-                </div>
-                <div class="post">
-                    <img src="../image/bolo.jpg" alt="">
-                    <h2>Sorvete</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
-                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
-                        aliquam unde quia sunt quae vero officiis.</p>
-                </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</body>
-<!-- <script src="../header.js"></script> -->
+    </body>
+    <!-- <script src="../header.js"></script> -->
 
-</html>
+    </html>
