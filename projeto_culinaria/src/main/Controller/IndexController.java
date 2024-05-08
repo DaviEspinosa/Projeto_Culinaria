@@ -1,10 +1,10 @@
-import org.springframework.stereotype.Controller;
+// import org.springframework.stereotype.Controller;
 
-@Controller
-public class IndexController {
+// @Controller
+// public class IndexController {
  
-    @GetMapping("/")
-    public String acessarIndex(){
-        return "index";
-    }
-}
+//     @GetMapping("/")
+//     public String acessarIndex(){
+//         return "index";
+//     }
+// }
