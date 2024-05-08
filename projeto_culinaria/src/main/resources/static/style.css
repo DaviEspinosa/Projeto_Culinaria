@@ -45,7 +45,6 @@ body {
 }
 .posts{
     overflow-y: scroll;
-    animation: 1s linear move-posts;
 }
 .post{
     padding: 20px;
