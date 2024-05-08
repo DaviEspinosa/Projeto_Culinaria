@@ -104,5 +104,16 @@
         </section>
     </div>
 </body> 
+<script>
+    document.addEventListener("scroll", ()=>{
+        var conteudo = document.querySelector(".posts");
+        var conteudoPosicao = conteudo.getBoundingClientRect().top;
+        var telaPosicao = window.innerHeight;
 
+        if (conteudoPosicao < telaPosicao) {
+            conteudo.classList.add('show')
+        }
+    })
+    // scroll/pou-up/power-bi/exel
+</script>
 </html>
