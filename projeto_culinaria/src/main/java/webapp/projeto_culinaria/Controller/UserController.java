@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import webapp.projeto_culinaria.Model.UserDb;
 import webapp.projeto_culinaria.Repository.UserRepository;
 
-
 @Controller
 public class UserController {
 
@@ -23,22 +22,21 @@ public class UserController {
 
     @GetMapping("/user")
     public String acessUserPage() {
-        return "userPage";
+        return "internals/user-page";
     }
 
     @PostMapping("form-login")
-    public String acessLogin(@RequestParam String email,
-            @RequestParam String password, Model model) {
+    public String acessLogin(@RequestParam String email, @RequestParam String password, Model model) {
         try {
             boolean verifyEmail = ur.existsByEmail(email);
             boolean verifyPassword = ur.findByEmail(email).getPassword().equals(password);
             String url = "";
             if (verifyEmail && verifyPassword) {
                 acessUser = true;
-                url = "internals/user-page";
+                url = "redirect:user-page?email=" + email;
             } else {
                 url = "redirect:/login";
-                model.addAttribute("errorMessage", "Erro de login: Email ou senha incorretos");
+                System.out.println("Erro de login");
             }
             return url;
         } catch (Exception e) {
@@ -63,7 +61,7 @@ public class UserController {
             return "errorPage";
         }
 
-        return "redirect:/authentication/login";
+        return "redirect:/login";
     }
 
     @PostMapping("delete-user")
@@ -88,16 +86,16 @@ public class UserController {
     @PostMapping("form-update-user")
     public String postMethodName(UserDb userDb, Model model) {
         Optional<UserDb> existingUserOptional = ur.findById(userDb.getUser_id());
-            if (existingUserOptional.isPresent()) {
-                UserDb existingUser = existingUserOptional.get();
-                existingUser.setName(userDb.getName());
-                existingUser.setEmail(userDb.getEmail());
-                ur.save(existingUser);
-                model.addAttribute("successMessage", "Informações do usuário atualizadas com sucesso");
-            } else {
-                model.addAttribute("errorMessage", "Usuário não encontrado para atualização");
-            }
+        if (existingUserOptional.isPresent()) {
+            UserDb existingUser = existingUserOptional.get();
+            existingUser.setName(userDb.getName());
+            existingUser.setEmail(userDb.getEmail());
+            ur.save(existingUser);
+            model.addAttribute("successMessage", "Informações do usuário atualizadas com sucesso");
+        } else {
+            model.addAttribute("errorMessage", "Usuário não encontrado para atualização");
+        }
         return "redirect:/internal/user-page";
     }
-    
+
 }

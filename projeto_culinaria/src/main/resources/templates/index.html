@@ -29,21 +29,17 @@
         </div>
         <section class="feed-receitas">
             <div class="posts">
-                <div class="post">
-                    <img src="../image/sorvete.jpg" alt="">
-                    <tr>
-                        
-                    </tr>
-                <div class="post">
-                    <img src="../image/bolo.jpg" alt="">
-                    <h2>Sorvete</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
-                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
-                        aliquam unde quia sunt quae vero officiis.</p>
-                </div>
-                </div>
+                <h1>Lista de Receitas</h1>
+                <ul class="post">
+                    <li th:each="recipe : ${recipes}">
+                        <h2 th:text="${recipe.title}"></h2>
+                        <p th:text="${recipe.description}"></p>
+                        <p>Postado por: <span th:text="${recipe.user.name}"></span></p>
+                    </li>
+                </ul>
             </div>
-        </section>
+    </div>
+    </section>
     </div>
 </body>
 <!-- <script src="../header.js"></script> -->
