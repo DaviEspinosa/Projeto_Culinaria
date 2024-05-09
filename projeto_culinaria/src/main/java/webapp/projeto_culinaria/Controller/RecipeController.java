@@ -46,7 +46,7 @@ public class RecipeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:internals/user-page";
+        return "internals/user-page";
     }
 
 

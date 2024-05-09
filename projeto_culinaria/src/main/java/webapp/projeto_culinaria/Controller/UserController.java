@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import webapp.projeto_culinaria.Model.UserDb;
 import webapp.projeto_culinaria.Repository.UserRepository;
 
@@ -21,28 +22,37 @@ public class UserController {
     boolean acessUser = false;
 
     @GetMapping("/user")
-    public String acessUserPage() {
-        return "internals/user-page";
+    public String acessUserPage(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            UserDb userDb = ur.findById(userId).orElse(null);
+            if (userDb != null) {
+                model.addAttribute("userDb", userDb);
+                return "internals/user-page";
+            }
+        }
+        return "authentication/login";
     }
 
     @PostMapping("/form-login")
-public String acessLogin(@RequestParam String email, @RequestParam String password, Model model) {
-    try {
-        UserDb user = ur.findByEmail(email);
-        if (user != null && user.getPassword().trim().equals(password.trim())) {
-            acessUser = true;
-            return "redirect:user?email=" + email;
-        } else if (user == null) {
-            model.addAttribute("errorMessage", "Erro: Usuário não encontrado");
-            return "authentication/login";
-        } else {
-            model.addAttribute("errorMessage", "Erro: Senha incorreta");
-            return "authentication/login";
+    public String acessLogin(@RequestParam String email, @RequestParam String password, HttpSession session,
+            Model model) {
+        try {
+            UserDb user = ur.findByEmail(email);
+            if (user != null && user.getPassword().trim().equals(password.trim())) {
+                session.setAttribute("userId", user.getUser_id());
+                return "redirect:user";
+            } else if (user == null) {
+                model.addAttribute("errorMessage", "Erro: Usuário não encontrado");
+                return "authentication/login";
+            } else {
+                model.addAttribute("errorMessage", "Erro: Senha incorreta");
+                return "authentication/login";
+            }
+        } catch (Exception e) {
+            return "redirect:/login";
         }
-    } catch (Exception e) {
-        return "redirect:/login";
     }
-}
 
     @PostMapping("form-register")
     public String userRegister(UserDb userDb, Model model) {
