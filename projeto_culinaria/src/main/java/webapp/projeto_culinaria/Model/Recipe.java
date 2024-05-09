@@ -22,6 +22,12 @@ public class Recipe implements Serializable{
     private String category;
 
     
+    public UserDb getUserDb() {
+        return userDb;
+    }
+    public void setUserDb(UserDb userDb) {
+        this.userDb = userDb;
+    }
     public String getCategory() {
         return category;
     }

@@ -33,7 +33,15 @@ public class IndexController {
     }
 
     @GetMapping("/register")
-    public String acessRegister() {
+    public String acessRegister(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            UserDb userDb = ur.findById(userId).orElse(null);
+            if (userDb != null) {
+                model.addAttribute("userDb", userDb);
+                return "internals/user-page";
+            }
+        }
         return "authentication/register";
     }
 }
