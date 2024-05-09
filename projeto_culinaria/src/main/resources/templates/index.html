@@ -99,21 +99,77 @@
                         recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
                         aliquam unde quia sunt quae vero officiis.</p>
                 </div>
+                <div class="post">
+                    <img src="../image/bolo.jpg" alt="">
+                    <h2>Sorvete</h2>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                        aliquam unde quia sunt quae vero officiis.</p>
+                </div>
+                <div class="post">
+                    <img src="../image/bolo.jpg" alt="">
+                    <h2>Sorvete</h2>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                        aliquam unde quia sunt quae vero officiis.</p>
+                </div>
+                <div class="post">
+                    <img src="../image/bolo.jpg" alt="">
+                    <h2>Sorvete</h2>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                        aliquam unde quia sunt quae vero officiis.</p>
+                </div>
+                <div class="post">
+                    <img src="../image/bolo.jpg" alt="">
+                    <h2>Sorvete</h2>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                        aliquam unde quia sunt quae vero officiis.</p>
+                </div>
+                <div class="post">
+                    <img src="../image/bolo.jpg" alt="">
+                    <h2>Sorvete</h2>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                        aliquam unde quia sunt quae vero officiis.</p>
+                </div>
+                <div class="post">
+                    <img src="../image/bolo.jpg" alt="">
+                    <h2>Sorvete</h2>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsa pariatur molestiae non
+                        recusandae adipisci, sapiente placeat. Recusandae, necessitatibus, cum, rem perspiciatis a
+                        aliquam unde quia sunt quae vero officiis.</p>
+                </div>
                 </div>
             </div>
         </section>
     </div>
 </body> 
 <script>
-    document.addEventListener("scroll", ()=>{
-        var conteudo = document.querySelector(".posts");
-        var conteudoPosicao = conteudo.getBoundingClientRect().top;
-        var telaPosicao = window.innerHeight;
+const myObserver = new IntersectionObserver((entries) => {
+    console.log(entries);
+    //entre o que esta sendo impresso no console, preciso saber se ele esta visivel ou não
+    // no caso isIntersecting
+   entries.forEach((entry) =>{
 
-        if (conteudoPosicao < telaPosicao) {
-            conteudo.classList.add('show')
-        }
-    })
-    // scroll/pou-up/power-bi/exel
+    if (entry.isIntersecting) {
+        // isso retorna true ou false
+        entry.target.classList.add("show");
+        // após serem visiveis, caso não estaja na tela, removo a classe
+    }
+
+    // else{
+    //     entry.target.classList.remove("show");
+    // }
+   })
+});
+const elements = document.querySelectorAll(".post");
+// como o elements e uma lista, tenho que fazer um foreach
+
+elements.forEach((element) => myObserver.observe(element))
+// dessa forma coloco todos em observação
+
+// scroll/pou-up/power-bi/exel
 </script>
 </html>
