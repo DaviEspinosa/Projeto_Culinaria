@@ -90,6 +90,14 @@ ul{
     border: none;
     color: #FFFFFF;
 }
+.profile form{
+    display: flex;
+    width: 70%;
+    background-color: transparent;
+    border: none;
+    color: #FFFFFF;
+    align-items: center;
+}
 
 .profile button:hover{
     width: 70%;

@@ -1,11 +1,11 @@
 package webapp.projeto_culinaria.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,15 +25,16 @@ public class RecipeController {
     UserRepository ur;
 
     @PostMapping("form-share-recipe")
-    public String shareRecipe(Recipe recipe, HttpServletRequest request) {
+    public String shareRecipe(Recipe recipe, HttpServletRequest request, Model model, HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("userId");
+        UserDb userDb = ur.findById(userId).orElse(null);
         
         try {
-            HttpSession session = request.getSession();
-            Long userId = (Long) session.getAttribute("userId");
 
             if (userId != null) {
                 UserDb user = ur.findById(userId).orElse(null);
-                
+
                 if (user != null) {
                     recipe.setUser(user);
                     rp.save(recipe);
@@ -47,14 +48,14 @@ public class RecipeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        model.addAttribute("userDb", userDb);
+                Iterable<Recipe> recipeIterable = rp.findAll();
+                List<Recipe> recipes = new ArrayList<>();
+                recipeIterable.forEach(recipes::add);
+
+                model.addAttribute("recipes", recipes);
+
         return "internals/user-page";
-    }
-
-
-    @GetMapping("/recipes")
-    public String listRecipes(Model model) {
-        List<Recipe> recipes = (List<Recipe>) rp.findAll();
-        model.addAttribute("recipes", recipes);
-        return "index";
     }
 }
