@@ -26,6 +26,7 @@ public class RecipeController {
 
     @PostMapping("form-share-recipe")
     public String shareRecipe(Recipe recipe, HttpServletRequest request) {
+        
         try {
             HttpSession session = request.getSession();
             Long userId = (Long) session.getAttribute("userId");
@@ -41,6 +42,7 @@ public class RecipeController {
                 }
             } else {
                 System.out.println("ID do usuário não encontrado na sessão");
+                return "authentication/login";
             }
         } catch (Exception e) {
             e.printStackTrace();
