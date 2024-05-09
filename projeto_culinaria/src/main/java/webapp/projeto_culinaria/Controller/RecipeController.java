@@ -36,7 +36,6 @@ public class RecipeController {
                 
                 if (user != null) {
                     recipe.setUser(user);
-                    
                     rp.save(recipe);
                 } else {
                     System.out.println("Usuário não encontrado");
