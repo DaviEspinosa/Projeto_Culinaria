@@ -7,7 +7,7 @@
     <title>Página Inicial</title>
     <link rel="stylesheet" th:href="@{fragmentsCss/header.css}">
     <link rel="stylesheet" th:href="@{/internalCss/user-page.css}">
-    <link rel="stylesheet" th:href="@{fragmentsCss/feed-receitas.css}">
+    <link rel="stylesheet" th:href="@{fragmentsCss/feed-recipes.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -24,15 +24,19 @@
                 <li><a href="">Petiscos</a></li>
                 <li><a href="">Saladas</a></li>
                 <li><a href="">Bebidas</a></li>
+                <li><a href="">Fitness</a></li>
             </ul>
             <div class="profile">
 
                 <div class="img-profile">
                     <img src="/img/profile-img.png" alt="">
                 </div>
-                <button>
-                    Sair da Conta
-                </button>
+
+                <form action="logout">
+                    <button type="submit">
+                        Sair da Conta
+                    </button>
+                </form>
 
             </div>
 
@@ -42,16 +46,48 @@
                     <input type="text" name="title" placeholder="Titulo" required>
                     <input type="text" name="description" placeholder="descrição" required>
                     <input type="text" name="recipeTxt" placeholder="passo a passo" required>
+                    <select name="category" required>
+                        <option disabled selected>Selecione uma categoria</option>
+                        <option value="Salgados">Salgados</option>
+                        <option value="Doces">Doces</option>
+                        <option value="Petiscos">Petiscos</option>
+                        <option value="Bebidas">Bebidas</option>
+                        <option value="Fitness">Fitness</option>
+                    </select>
                 </div>
 
                 <button type="submit">Entrar</button>
             </form>
         </div>
 
-        <section class="feed-receitas" th:insert="~{fragments/feed-receitas :: .posts}"></section>
+        <section class="feed-recipes" th:insert="~{fragments/feed-recipes :: .posts}"></section>
+
+        <button class="add" onclick="formView()">+</button>
+        <button class="my-recipes" onclick="">-</button>
 
     </div>
+
+    <div class="div-blur"></div>
+
 </body>
-<!-- <script src="../header.js"></script> -->
+
+<script>
+    var cadRecipes = document.querySelector(".form");
+    var button = document.querySelector(".add");
+    var divBlur = document.querySelector(".div-blur");
+    // var body = document.body;
+
+    function formView() {
+
+        if (cadRecipes.style.display == '') {
+            cadRecipes.style.display = 'block'
+            divBlur.style.display = 'block'
+        } else {
+            cadRecipes.style.display = ''
+            
+        }
+    }
+
+</script>
 
 </html>
