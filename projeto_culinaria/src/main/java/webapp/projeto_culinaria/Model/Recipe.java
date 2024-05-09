@@ -19,7 +19,15 @@ public class Recipe implements Serializable{
     private String recipeTxt;
     @ManyToOne(cascade = CascadeType.ALL)
     private UserDb userDb;
+    private String categoria;
 
+    
+    public String getCategoria() {
+        return categoria;
+    }
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
     public Long getRec_id() {
         return rec_id;
     }
