@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String acessUserPage() {
-        return "userPage";
+        return "internals/user-page";
     }
 
     @PostMapping("form-login")
