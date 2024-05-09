@@ -1,45 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="https://thymeleaf.org">
+<html lang="pt-br" xmlns="https://thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial</title>
-    <link rel="stylesheet" th:href="@{header.css}">
+    <link rel="stylesheet" th:href="@{fragmentosCss/header.css}">
+    <link rel="stylesheet" th:href="@{fragmentosCss/feed-receitas.css}">
     <link rel="stylesheet" th:href="@{style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <div th:insert="~{fragmentos/header :: header}"></div>
+    <div th:insert="~{fragments/header :: header}"></div>
 
 
     <div class="container">
         <div class="container-filter">
-            <ul>
+            <ul class="lista">
                 <li><a href="">Salgados</a></li>
                 <li><a href="">Doces</a></li>
                 <li><a href="">Frios</a></li>
                 <li><a href="">Saladas</a></li>
                 <li><a href="">Bebidas</a></li>
             </ul>
-            <div class="profile">
-
-            </div>
         </div>
-        <section class="feed-receitas">
-            <div class="posts">
-                <h1>Lista de Receitas</h1>
-                <ul class="post">
-                    <li th:each="recipe : ${recipes}">
-                        <h2 th:text="${recipe.title}"></h2>
-                        <p th:text="${recipe.description}"></p>
-                        <p>Postado por: <span th:text="${recipe.user.name}"></span></p>
-                    </li>
-                </ul>
-            </div>
-    </div>
-    </section>
+        <section class="feed-receitas" th:insert="~{fragments/feed-receitas :: .posts}"></section>
     </div>
 </body>
 <!-- <script src="../header.js"></script> -->
