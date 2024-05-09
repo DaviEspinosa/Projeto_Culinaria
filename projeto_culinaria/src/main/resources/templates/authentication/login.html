@@ -18,7 +18,7 @@
 
             </div>
 
-            <form action="form-login" class="form" method="post" onsubmit="return validateForm()">
+            <form action="form-login" class="form" method="post">
                 <h2>Login</h2>
                 <div class="dados">
                     <input type="email" name="email" placeholder="E-mail" required>
@@ -26,7 +26,9 @@
 
                 </div>
 
-                <div id="error-message" style="color: red;"></div>
+                <div th:if="${errorMessage}" class="error-message">
+                    <span th:text="${errorMessage}"></span>
+                </div>
 
                 <a href="">Esqueci minha senha</a>
 
@@ -36,14 +38,6 @@
         </section>
     </div>
 
-
-    <script>
-        function validateForm() {
-            document.getElementById("error-message").innerHTML = "Erro: E-mail ou senha incorretos.";
-
-            return false;
-        }
-    </script>
 </body>
 
 </html>

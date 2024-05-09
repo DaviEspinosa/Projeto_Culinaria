@@ -25,25 +25,24 @@ public class UserController {
         return "internals/user-page";
     }
 
-    @PostMapping("form-login")
-    public String acessLogin(@RequestParam String email, @RequestParam String password, Model model) {
-        try {
-            boolean verifyEmail = ur.existsByEmail(email);
-            boolean verifyPassword = ur.findByEmail(email).getPassword().equals(password);
-            String url = "";
-            if (verifyEmail && verifyPassword) {
-                acessUser = true;
-                url = "redirect:user-page?email=" + email;
-            } else {
-                url = "redirect:/login";
-                System.out.println("Erro de login");
-            }
-            return url;
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Erro de login: " + e.getMessage());
-            return "redirect:/login";
+    @PostMapping("/form-login")
+public String acessLogin(@RequestParam String email, @RequestParam String password, Model model) {
+    try {
+        UserDb user = ur.findByEmail(email);
+        if (user != null && user.getPassword().trim().equals(password.trim())) {
+            acessUser = true;
+            return "redirect:user?email=" + email;
+        } else if (user == null) {
+            model.addAttribute("errorMessage", "Erro: Usuário não encontrado");
+            return "authentication/login";
+        } else {
+            model.addAttribute("errorMessage", "Erro: Senha incorreta");
+            return "authentication/login";
         }
+    } catch (Exception e) {
+        return "redirect:/login";
     }
+}
 
     @PostMapping("form-register")
     public String userRegister(UserDb userDb, Model model) {
@@ -52,9 +51,12 @@ public class UserController {
             if (emailExists) {
                 model.addAttribute("errorMessage", "Erro ao cadastrar: E-mail já está em uso");
                 return "authentication/register";
+            } else {
+                userDb.setPassword(userDb.getPassword().trim());
+                userDb.setEmail(userDb.getEmail().trim());
+                ur.save(userDb);
+                model.addAttribute("successMessage", "Novo usuário cadastrado com sucesso");
             }
-            ur.save(userDb);
-            model.addAttribute("successMessage", "Novo usuário cadastrado com sucesso");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Erro ao tentar cadastrar/atualizar o usuário: " + e.getMessage());
             e.printStackTrace();
