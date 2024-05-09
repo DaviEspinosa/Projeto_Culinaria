@@ -30,22 +30,30 @@ public class UserController {
     boolean acessUser = false;
 
     @GetMapping("/user")
-    public String acessUserPage(HttpSession session, Model model) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId != null) {
-            UserDb userDb = ur.findById(userId).orElse(null);
-            if (userDb != null) {
-                model.addAttribute("userDb", userDb);
-                Iterable<Recipe> recipeIterable = rp.findAll();
-                List<Recipe> recipes = new ArrayList<>();
-                recipeIterable.forEach(recipes::add);
+    public String acessUserPage(HttpSession session, Model model, HttpServletRequest request) {
+        if (isAuthenticated(session)) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+                UserDb userDb = ur.findById(userId).orElse(null);
+                if (userDb != null) {
+                    model.addAttribute("userDb", userDb);
+                    Iterable<Recipe> recipeIterable = rp.findAll();
+                    List<Recipe> recipes = new ArrayList<>();
+                    recipeIterable.forEach(recipes::add);
 
-                model.addAttribute("recipes", recipes);
-                return "internals/user-page";
+                    model.addAttribute("recipes", recipes);
+                    return "internals/user-page";
+                }
             }
+        } else {
+            return "redirect:/login";
         }
 
         return "authentication/login";
+    }
+
+    private boolean isAuthenticated(HttpSession session) {
+        return session != null && session.getAttribute("userId") != null;
     }
 
     @PostMapping("/form-login")
@@ -91,7 +99,13 @@ public class UserController {
     }
 
     @PostMapping("delete-user")
-    public String deleteUser(@RequestParam(required = false) Long user_id, Model model) {
+    public String deleteUser(@RequestParam(required = false) Long user_id, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+
         try {
             Optional<UserDb> userOptional = ur.findById(user_id);
 
@@ -110,7 +124,13 @@ public class UserController {
     }
 
     @PostMapping("form-update-user")
-    public String postMethodName(UserDb userDb, Model model) {
+    public String postMethodName(UserDb userDb, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+
         Optional<UserDb> existingUserOptional = ur.findById(userDb.getUser_id());
         if (existingUserOptional.isPresent()) {
             UserDb existingUser = existingUserOptional.get();
@@ -126,7 +146,12 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+        
         session.invalidate();
 
         return "authentication/login";

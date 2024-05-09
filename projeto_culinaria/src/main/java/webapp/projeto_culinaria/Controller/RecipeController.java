@@ -29,9 +29,8 @@ public class RecipeController {
 
         Long userId = (Long) session.getAttribute("userId");
         UserDb userDb = ur.findById(userId).orElse(null);
-        
-        try {
 
+        try {
             if (userId != null) {
                 UserDb user = ur.findById(userId).orElse(null);
 

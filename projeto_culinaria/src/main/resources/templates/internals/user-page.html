@@ -10,6 +10,9 @@
     <link rel="stylesheet" th:href="@{fragmentsCss/feed-recipes.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
 
 <body>
@@ -31,7 +34,7 @@
                 <div class="img-profile">
                     <img src="/img/profile-img.png" alt="">
                 </div>
-                
+
                 <form action="logout">
                     <button type="submit">
                         Sair da Conta
@@ -65,5 +68,18 @@
     </div>
 </body>
 <!-- <script src="../header.js"></script> -->
+<script>
+    window.onload = function () {
+        localStorage.setItem("previousPage", window.location.href);
+    };
 
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            var previousPage = localStorage.getItem("previousPage");
+            if (previousPage) {
+                window.location.href = previousPage;
+            }
+        }
+    };
+</script>
 </html>
