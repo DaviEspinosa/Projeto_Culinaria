@@ -13,7 +13,7 @@ import jakarta.persistence.UniqueConstraint;
 @Table(
         name="USERDB", 
         uniqueConstraints=
-            @UniqueConstraint(columnNames={"email"})
+            @UniqueConstraint(columnNames={"email", "name"})
     )
 
 public class UserDb implements Serializable{

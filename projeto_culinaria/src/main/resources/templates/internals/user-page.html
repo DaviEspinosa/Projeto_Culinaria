@@ -27,18 +27,29 @@
             </ul>
             <div class="profile">
 
-                    <div class="img-profile">
-                        <img src="/img/profile-img.png" alt="">
-                    </div>
-                    <button>
-                        Sair da Conta
-                    </button>
+                <div class="img-profile">
+                    <img src="/img/profile-img.png" alt="">
+                </div>
+                <button>
+                    Sair da Conta
+                </button>
 
             </div>
+
+            <form action="form-share-recipe" class="form" method="post">
+                <h2>enviar receita</h2>
+                <div class="dados">
+                    <input type="text" name="title" placeholder="Titulo" required>
+                    <input type="text" name="description" placeholder="descrição" required>
+                    <input type="text" name="recipeTxt" placeholder="passo a passo" required>
+                </div>
+
+                <button type="submit">Entrar</button>
+            </form>
         </div>
 
         <section class="feed-receitas" th:insert="~{fragments/feed-receitas :: .posts}"></section>
-    
+
     </div>
 </body>
 <!-- <script src="../header.js"></script> -->
