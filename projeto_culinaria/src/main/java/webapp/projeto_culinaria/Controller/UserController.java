@@ -1,5 +1,7 @@
 package webapp.projeto_culinaria.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import webapp.projeto_culinaria.Model.Recipe;
 import webapp.projeto_culinaria.Model.UserDb;
+import webapp.projeto_culinaria.Repository.RecipeRepository;
 import webapp.projeto_culinaria.Repository.UserRepository;
 
 @Controller
@@ -18,68 +24,73 @@ public class UserController {
     @Autowired
     UserRepository ur;
 
+    @Autowired
+    RecipeRepository rp;
+
     boolean acessUser = false;
 
     @GetMapping("/user")
-    public String acessUserPage() {
-        return "userPage";
+    public String acessUserPage(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            UserDb userDb = ur.findById(userId).orElse(null);
+            if (userDb != null) {
+                model.addAttribute("userDb", userDb);
+                Iterable<Recipe> recipeIterable = rp.findAll();
+                List<Recipe> recipes = new ArrayList<>();
+                recipeIterable.forEach(recipes::add);
+
+                model.addAttribute("recipes", recipes);
+                return "internals/user-page";
+            }
+        }
+
+        return "authentication/login";
     }
 
-    @PostMapping("form-login")
-    public String acessLogin(@RequestParam String email,
-            @RequestParam String password, Model model) {
+    @PostMapping("/form-login")
+    public String acessLogin(@RequestParam String email, @RequestParam String password, HttpSession session,
+            Model model) {
         try {
-            boolean verifyEmail = ur.existsByEmail(email);
-            boolean verifyPassword = ur.findByEmail(email).getPassword().equals(password);
-            String url = "";
-            if (verifyEmail && verifyPassword) {
-                acessUser = true;
-                url = "internals/user-page";
+            UserDb user = ur.findByEmail(email);
+            if (user != null && user.getPassword().trim().equals(password.trim())) {
+                session.setAttribute("userId", user.getUser_id());
+                return "redirect:user";
+            } else if (user == null) {
+                model.addAttribute("errorMessage", "Erro: Usuário não encontrado");
+                return "authentication/login";
             } else {
-                url = "redirect:/login";
-                model.addAttribute("errorMessage", "Erro de login: Email ou senha incorretos");
+                model.addAttribute("errorMessage", "Erro: Senha incorreta");
+                return "authentication/login";
             }
-            return url;
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Erro de login: " + e.getMessage());
             return "redirect:/login";
         }
     }
 
     @PostMapping("form-register")
-public String userRegister(UserDb userDb, Model model) {
-    try {
-        boolean emailExists = ur.existsByEmail(userDb.getEmail());
-        if (emailExists) {
-            model.addAttribute("errorMessage", "Erro ao cadastrar: E-mail já está em uso");
-            return "authentication/register"; 
-        }
-        
-        if (userDb.getUser_id() == null) {
-            ur.save(userDb);
-            model.addAttribute("successMessage", "Novo usuário cadastrado com sucesso");
-        } else {
-            Optional<UserDb> existingUserOptional = ur.findById(userDb.getUser_id());
-            if (existingUserOptional.isPresent()) {
-                UserDb existingUser = existingUserOptional.get();
-                existingUser.setName(userDb.getName());
-                existingUser.setEmail(userDb.getEmail());
-                ur.save(existingUser);
-                model.addAttribute("successMessage", "Informações do usuário atualizadas com sucesso");
+    public String userRegister(UserDb userDb, Model model) {
+        try {
+            boolean emailExists = ur.existsByEmail(userDb.getEmail());
+            if (emailExists) {
+                model.addAttribute("errorMessage", "Erro ao cadastrar: E-mail já está em uso");
+                return "authentication/register";
             } else {
-                model.addAttribute("errorMessage", "Usuário não encontrado para atualização");
+                userDb.setPassword(userDb.getPassword().trim());
+                userDb.setEmail(userDb.getEmail().trim());
+                ur.save(userDb);
+                model.addAttribute("successMessage", "Novo usuário cadastrado com sucesso");
             }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Erro ao tentar cadastrar/atualizar o usuário: " + e.getMessage());
+            e.printStackTrace();
+            return "errorPage";
         }
-    } catch (Exception e) {
-        model.addAttribute("errorMessage", "Erro ao tentar cadastrar/atualizar o usuário: " + e.getMessage());
-        e.printStackTrace();
-        return "errorPage";
+
+        return "redirect:/login";
     }
 
-    return "authentication/login";
-}
-
-    @PostMapping("/delete-user")
+    @PostMapping("delete-user")
     public String deleteUser(@RequestParam(required = false) Long user_id, Model model) {
         try {
             Optional<UserDb> userOptional = ur.findById(user_id);
@@ -95,7 +106,29 @@ public String userRegister(UserDb userDb, Model model) {
             e.printStackTrace();
         }
 
-        return "redirect:/user";
+        return "redirect:/index";
     }
 
+    @PostMapping("form-update-user")
+    public String postMethodName(UserDb userDb, Model model) {
+        Optional<UserDb> existingUserOptional = ur.findById(userDb.getUser_id());
+        if (existingUserOptional.isPresent()) {
+            UserDb existingUser = existingUserOptional.get();
+            existingUser.setName(userDb.getName());
+            existingUser.setEmail(userDb.getEmail());
+            ur.save(existingUser);
+            model.addAttribute("successMessage", "Informações do usuário atualizadas com sucesso");
+        } else {
+            model.addAttribute("errorMessage", "Usuário não encontrado para atualização");
+        }
+        return "redirect:/internal/user-page";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        return "authentication/login";
+    }
 }

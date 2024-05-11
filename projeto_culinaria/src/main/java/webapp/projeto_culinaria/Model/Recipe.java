@@ -16,10 +16,24 @@ public class Recipe implements Serializable{
     private Long rec_id;
     private String title;
     private String description;
-    private String recipe;
+    private String recipeTxt;
     @ManyToOne(cascade = CascadeType.ALL)
     private UserDb userDb;
+    private String category;
 
+    
+    public UserDb getUserDb() {
+        return userDb;
+    }
+    public void setUserDb(UserDb userDb) {
+        this.userDb = userDb;
+    }
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
     public Long getRec_id() {
         return rec_id;
     }
@@ -35,11 +49,11 @@ public class Recipe implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getRecipe() {
-        return recipe;
+    public String getRecipeTxt() {
+        return recipeTxt;
     }
-    public void setRecipe(String recipe) {
-        this.recipe = recipe;
+    public void setRecipeTxt(String recipeTxt) {
+        this.recipeTxt = recipeTxt;
     }
     public UserDb getUser() {
         return userDb;

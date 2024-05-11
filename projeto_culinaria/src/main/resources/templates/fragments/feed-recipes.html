@@ -1,0 +1,35 @@
+<div class="posts">
+    <table>
+        <!-- <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Usuário</th>
+                <th>Categoria</th>
+            </tr>
+        </thead> -->
+        <tbody class="card-categorias">
+            <tr class="card" th:each="recipe : ${recipes}">
+                <td th:text="${recipe.title}"></td>
+                <td th:text="${recipe.description}"></td>
+                <td th:text="${recipe.userDb.name}"></td>
+                <td th:text="${recipe.category}"></td>
+            </tr>
+        </tbody>
+
+    </table>
+<script>
+    var myObserver = new IntersectionObserver((entries) =>{
+
+entries.forEach((entry) => {
+  if (entry.isIntersecting) {
+      entry.target.classList.add(".show");
+  }
+})
+
+const elements = document.querySelectorAll(".card");
+
+elements.forEach((element) => {myObserver.observe(element)})        
+})
+</script>
+</div>
