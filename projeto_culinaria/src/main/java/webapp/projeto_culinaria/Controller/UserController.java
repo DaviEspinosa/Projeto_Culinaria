@@ -49,7 +49,7 @@ public class UserController {
             return "redirect:/login";
         }
 
-        return "authentication/login";
+        return "redirect:/login";
     }
 
     private boolean isAuthenticated(HttpSession session) {
@@ -82,7 +82,7 @@ public class UserController {
             boolean emailExists = ur.existsByEmail(userDb.getEmail());
             if (emailExists) {
                 model.addAttribute("errorMessage", "Erro ao cadastrar: E-mail já está em uso");
-                return "authentication/register";
+                return "redirect:/register";
             } else {
                 userDb.setPassword(userDb.getPassword().trim());
                 userDb.setEmail(userDb.getEmail().trim());
@@ -154,6 +154,6 @@ public class UserController {
         
         session.invalidate();
 
-        return "authentication/login";
+        return "redirect:/login";
     }
 }

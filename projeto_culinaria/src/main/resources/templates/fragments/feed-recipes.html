@@ -1,21 +1,23 @@
 <div class="posts">
     <table>
-        <thead>
+        <!-- <thead>
             <tr>
                 <th>Título</th>
                 <th>Descrição</th>
                 <th>Usuário</th>
                 <th>Categoria</th>
             </tr>
-        </thead>
-        <tbody>
-            <tr th:each="recipe : ${recipes}">
+        </thead> -->
+        <tbody class="card-categorias">
+            <tr class="card" th:each="recipe : ${recipes}">
+                <img class="img-card" src="" alt="">
                 <td th:text="${recipe.title}"></td>
                 <td th:text="${recipe.description}"></td>
-                <td th:text="${recipe.userDb.name}"></td>
                 <td th:text="${recipe.category}"></td>
+                <td th:text="${recipe.userDb.name}"></td>
             </tr>
         </tbody>
+
     </table>
 
 </div>

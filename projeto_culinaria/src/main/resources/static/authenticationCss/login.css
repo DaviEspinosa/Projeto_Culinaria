@@ -29,8 +29,8 @@ section {
 .Img-food{
     width: 50%;
     height: 100%;
-    background-image: url("/img/culinaria.webp");
-    background-size: cover;
+    background-image: url("/img/login.jpg");
+background-size: cover;
 }
 .form{
     width: 50%;

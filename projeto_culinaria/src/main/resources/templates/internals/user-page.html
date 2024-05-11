@@ -7,7 +7,7 @@
     <title>Página Inicial</title>
     <link rel="stylesheet" th:href="@{fragmentsCss/header.css}">
     <link rel="stylesheet" th:href="@{/internalCss/user-page.css}">
-    <link rel="stylesheet" th:href="@{fragmentsCss/feed-recipes.css}">
+    <link rel="stylesheet" th:href="@{fragmentsCss/feed-Myrecipes.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -19,7 +19,8 @@
     <div th:insert="~{fragments/header :: header}"></div>
 
 
-    <div class="container">
+    <div class="container ">
+
         <div class="container-filter">
             <ul class="lista">
                 <li><a href="">Salgados</a></li>
@@ -32,7 +33,7 @@
             <div class="profile">
 
                 <div class="img-profile">
-                    <img src="/img/profile-img.png" alt="">
+                    <img src="/img/profile.webp" alt="">
                 </div>
 
                 <form action="logout">
@@ -43,37 +44,45 @@
 
             </div>
 
-            <form action="form-share-recipe" class="form" method="post">
-                <h2>enviar receita</h2>
-                <div class="dados">
-                    <input type="text" name="title" placeholder="Titulo" required>
-                    <input type="text" name="description" placeholder="descrição" required>
-                    <input type="text" name="recipeTxt" placeholder="passo a passo" required>
-                    <select name="category" required>
-                        <option disabled selected>Selecione uma categoria</option>
-                        <option value="Salgados">Salgados</option>
-                        <option value="Doces">Doces</option>
-                        <option value="Petiscos">Petiscos</option>
-                        <option value="Bebidas">Bebidas</option>
-                        <option value="Fitness">Fitness</option>
-                    </select>
-                </div>
-
-                <button type="submit">Entrar</button>
-            </form>
         </div>
 
         <section class="feed-recipes" th:insert="~{fragments/feed-recipes :: .posts}"></section>
-
     </div>
+
+    <form action="form-share-recipe" class="form" method="post">
+        <h2>enviar receita</h2>
+        <div class="dados">
+            <input class="input" type="text" name="title" placeholder="Titulo" required>
+            <input class="input" type="text" name="description" placeholder="descrição" required>
+            <select class="input" name="category" required>
+                <option disabled selected>Selecione uma categoria</option>
+                <option value="Salgados">Salgados</option>
+                <option value="Doces">Doces</option>
+                <option value="Petiscos">Petiscos</option>
+                <option value="Bebidas">Bebidas</option>
+                <option value="Fitness">Fitness</option>
+            </select>
+            <div class="input-message" type="text" name="recipeTxt" data-placeholder="passo a passo" contenteditable="true"></div>
+        </div>
+
+        <button class='create-recipe' type="submit">Criar Receita</button>
+    </form>
+
+    <div class="button-list">
+        <button class="add" onclick="formView()">+</button>
+        <button class="my-recipes" onclick="">Ver minhas Receitas</button>
+    </div>
+
 </body>
-<!-- <script src="../header.js"></script> -->
+
+<!-- Script -->
 <script>
+
     window.onload = function () {
         localStorage.setItem("previousPage", window.location.href);
     };
 
-    window.onpageshow = function(event) {
+    window.onpageshow = function (event) {
         if (event.persisted) {
             var previousPage = localStorage.getItem("previousPage");
             if (previousPage) {
@@ -81,5 +90,22 @@
             }
         }
     };
+
+    var cadRecipes = document.querySelector(".form");
+    var button = document.querySelector(".add");
+
+    function formView() {
+
+
+        if (cadRecipes.style.display == '') {
+            // cadRecipes.style.display = 'block'
+            cadRecipes.style.display = 'flex'
+
+        } else {
+            cadRecipes.style.display = ''
+
+        }
+    }
 </script>
+
 </html>

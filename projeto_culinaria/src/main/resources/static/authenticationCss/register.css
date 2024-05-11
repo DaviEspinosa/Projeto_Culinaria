@@ -29,7 +29,7 @@ section {
 .Img-food{
     width: 50%;
     height: 100%;
-    background-image: url("/img/culinariaCadastro.jpg");
+    background-image: url("/img/cadastro.jpg");
     background-size: cover;
 }
 .form{
